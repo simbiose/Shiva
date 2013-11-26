@@ -29,6 +29,19 @@ it will return:
 
     DROP TABLE package_path_Foo ;
 
+#How To
+
+add the .jar on binary folder to your project path and use it.
+
+see the example on Example for more details.
+
+#Android users
+
+to android this library has improvements on SAU library so to use it go to one of these links:
+
+- BitBucket <https://bitbucket.org/simbiose/sau/overview>
+- GitHub <https://github.com/simbiose/SAU>
+
 ------
 
 Enjoy it and feel free to contribute, it's a GPL project, see LICENSE to more details.
