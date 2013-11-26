@@ -101,4 +101,14 @@ public class Shiva {
 		return sqlModel.getTableName(clazz);
 	}
 
+	/**
+	 * @param clazz
+	 *            the {@link Object} to be getted table name
+	 * @return a {@link String} with sql table name
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toTableName(Object object) {
+		return sqlModel.getTableName(object);
+	}
+
 }

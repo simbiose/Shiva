@@ -225,4 +225,16 @@ public class SQLite extends AbstractSqlModel {
 			return null;
 		return SqlStrings.removeDots(clazz.getCanonicalName());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getTableName(java.lang.Object)
+	 */
+	@Override
+	public String getTableName(Object object) {
+		if (object == null)
+			return null;
+		return getTableName(object.getClass());
+	}
 }

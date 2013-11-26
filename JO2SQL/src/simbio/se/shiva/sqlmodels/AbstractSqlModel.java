@@ -78,6 +78,14 @@ public abstract class AbstractSqlModel {
 	public abstract String getTableName(Class<?> clazz);
 
 	/**
+	 * @param object
+	 *            the {@link Object} to be getted table name
+	 * @return a {@link String} with sql table name
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getTableName(Object object);
+
+	/**
 	 * @param clazz
 	 *            the java {@link Class} type to be casted to an sql type
 	 * @return a {@link String} with the sql type or <code>null</code> if have no equivalent type
