@@ -5,6 +5,7 @@ package simbio.se.shiva.examples;
 
 import simbio.se.shiva.API;
 import simbio.se.shiva.Shiva;
+import simbio.se.shiva.utils.SimbiLog;
 
 /**
  * @author Ademar Alves de Oliveira (ademar111190@gmail.com)
@@ -17,14 +18,16 @@ public class ShivaExample {
 		String query;
 
 		query = Shiva.toCreateTableQuery(LittleFoo.class);
-		log(query);
+		SimbiLog.log(query);
 
 		query = Shiva.toCreateTableQuery(Foo.class);
-		log(query);
-	}
+		SimbiLog.log(query);
 
-	public static void log(Object param) {
-		System.out.println(param);
+		query = Shiva.toDropTableQuery(LittleFoo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toDropTableQuery(Foo.class);
+		SimbiLog.log(query);
 	}
 
 }

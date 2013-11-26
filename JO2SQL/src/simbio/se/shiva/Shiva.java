@@ -41,4 +41,14 @@ public class Shiva {
 		return sqlModel.getCreateTableQuery(clazz);
 	}
 
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be droped the sql table
+	 * @return a {@link String} with sql Drop query
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toDropTableQuery(Class<?> clazz) {
+		return sqlModel.getDropTableQuery(clazz);
+	}
+
 }

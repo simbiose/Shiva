@@ -14,11 +14,20 @@ import simbio.se.shiva.API;
  */
 public class SqlStrings {
 
+	public static final char COMMA = ',';
 	public static final String CREATE = "CREATE";
 	public static final char DOT = '.';
+	public static final String DROP = "DROP";
+	public static final String INTEGER = "INTEGER";
+	public static final String NONE = "NONE";
+	public static final String NUMERIC = "NUMERIC";
+	public static final char PARENTHESIS_LEFT = '(';
+	public static final char PARENTHESIS_RIGHT = ')';
+	public static final String REAL = "REAL";
 	public static final char SEMICOLON = ';';
 	public static final String SPACE = " ";
 	public static final String TABLE = "TABLE";
+	public static final String TEXT = "TEXT";
 	public static final char UNDERLINE = '_';
 
 	public static String removeDots(String string) {
