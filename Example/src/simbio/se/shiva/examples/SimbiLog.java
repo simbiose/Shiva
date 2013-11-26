@@ -1,12 +1,10 @@
 /**
  * 
  */
-package simbio.se.shiva.utils;
-
-import simbio.se.shiva.API;
+package simbio.se.shiva.examples;
 
 /**
- * A class to log
+ * Just a log class
  * 
  * @author Ademar Alves de Oliveira (ademar111190@gmail.com)
  * @date Nov 26, 2013 9:53:29 AM
@@ -20,7 +18,6 @@ public class SimbiLog {
 	/**
 	 * @param params
 	 *            the objects to be logged
-	 * @since {@link API#_1_0_0}
 	 */
 	public static void log(Object... params) {
 		if (LOG_ENABLE && params != null)
@@ -31,7 +28,6 @@ public class SimbiLog {
 	/**
 	 * @param exception
 	 *            the {@link Exception} to be logged
-	 * @since {@link API#_1_0_0}
 	 */
 	public static void logException(Exception exception) {
 		if (LOG_EXCEPTION_ENABLE && exception != null)

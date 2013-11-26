@@ -3,16 +3,13 @@
  */
 package simbio.se.shiva.examples;
 
-import simbio.se.shiva.API;
 import simbio.se.shiva.Shiva;
-import simbio.se.shiva.utils.SimbiLog;
 
 /**
  * @author Ademar Alves de Oliveira (ademar111190@gmail.com)
  * @date Nov 25, 2013 4:17:04 AM
- * @since {@link API#_1_0_0}
  */
-public class ShivaExample {
+public class Main {
 
 	public static void main(String[] args) {
 		String query;
