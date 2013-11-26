@@ -91,4 +91,14 @@ public class Shiva {
 		return sqlModel.getDeletQuery(object);
 	}
 
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be getted table name
+	 * @return a {@link String} with sql table name
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toTableName(Class<?> clazz) {
+		return sqlModel.getTableName(clazz);
+	}
+
 }
