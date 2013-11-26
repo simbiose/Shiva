@@ -4,8 +4,10 @@
 package simbio.se.shiva.sqlmodels;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 
 import simbio.se.shiva.API;
+import simbio.se.shiva.utils.SimbiLog;
 import simbio.se.shiva.utils.SqlStrings;
 
 /**
@@ -18,23 +20,41 @@ import simbio.se.shiva.utils.SqlStrings;
 public class SQLite extends AbstractSqlModel {
 
 	/**
+	 * default constructor
 	 * 
+	 * @since {@link API#_1_0_0}
 	 */
 	public SQLite() {
-		fromToJavaSqlType.put(Integer.class, SqlStrings.INTEGER);
-		fromToJavaSqlType.put(int.class, SqlStrings.INTEGER);
-		fromToJavaSqlType.put(Byte.class, SqlStrings.INTEGER);
-		fromToJavaSqlType.put(byte.class, SqlStrings.INTEGER);
-		fromToJavaSqlType.put(String.class, SqlStrings.TEXT);
-		fromToJavaSqlType.put(char.class, SqlStrings.TEXT);
-		fromToJavaSqlType.put(Float.class, SqlStrings.REAL);
-		fromToJavaSqlType.put(float.class, SqlStrings.REAL);
-		fromToJavaSqlType.put(Double.class, SqlStrings.REAL);
-		fromToJavaSqlType.put(double.class, SqlStrings.REAL);
-		fromToJavaSqlType.put(Long.class, SqlStrings.NUMERIC);
-		fromToJavaSqlType.put(long.class, SqlStrings.NUMERIC);
-		fromToJavaSqlType.put(Boolean.class, SqlStrings.NUMERIC);
-		fromToJavaSqlType.put(boolean.class, SqlStrings.NUMERIC);
+		toFromJavaTypeSqlType.put(Integer.class, SqlStrings.INTEGER);
+		toFromJavaTypeSqlType.put(int.class, SqlStrings.INTEGER);
+		toFromJavaTypeSqlType.put(Byte.class, SqlStrings.INTEGER);
+		toFromJavaTypeSqlType.put(byte.class, SqlStrings.INTEGER);
+		toFromJavaTypeSqlType.put(String.class, SqlStrings.TEXT);
+		toFromJavaTypeSqlType.put(char.class, SqlStrings.TEXT);
+		toFromJavaTypeSqlType.put(Float.class, SqlStrings.REAL);
+		toFromJavaTypeSqlType.put(float.class, SqlStrings.REAL);
+		toFromJavaTypeSqlType.put(Double.class, SqlStrings.REAL);
+		toFromJavaTypeSqlType.put(double.class, SqlStrings.REAL);
+		toFromJavaTypeSqlType.put(Long.class, SqlStrings.NUMERIC);
+		toFromJavaTypeSqlType.put(long.class, SqlStrings.NUMERIC);
+		toFromJavaTypeSqlType.put(Boolean.class, SqlStrings.NUMERIC);
+		toFromJavaTypeSqlType.put(boolean.class, SqlStrings.NUMERIC);
+
+		toFromJavaObjectSqlPattern.put(Integer.class, "%d");
+		toFromJavaObjectSqlPattern.put(int.class, "%d");
+		toFromJavaObjectSqlPattern.put(Byte.class, "%d");
+		toFromJavaObjectSqlPattern.put(byte.class, "%d");
+		toFromJavaObjectSqlPattern.put(String.class, "\"%s\"");
+		toFromJavaObjectSqlPattern.put(Character.class, "\"%s\"");
+		toFromJavaObjectSqlPattern.put(char.class, "\"%s\"");
+		toFromJavaObjectSqlPattern.put(Float.class, "%f");
+		toFromJavaObjectSqlPattern.put(float.class, "%f");
+		toFromJavaObjectSqlPattern.put(Double.class, "%f");
+		toFromJavaObjectSqlPattern.put(double.class, "%f");
+		toFromJavaObjectSqlPattern.put(Long.class, "%d");
+		toFromJavaObjectSqlPattern.put(long.class, "%d");
+		toFromJavaObjectSqlPattern.put(Boolean.class, "\"%s\"");
+		toFromJavaObjectSqlPattern.put(boolean.class, "\"%s\"");
 	}
 
 	/*
@@ -61,6 +81,57 @@ public class SQLite extends AbstractSqlModel {
 			stringBuilder.append(type).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+		stringBuilder.append(SqlStrings.PARENTHESIS_RIGHT).append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getInsertQuery(java.lang.Object)
+	 */
+	@Override
+	public String getInsertQuery(Object object) {
+		if (object == null)
+			return null;
+
+		Class<?> clazz = object.getClass();
+		StringBuilder stringBuilder = new StringBuilder();
+
+		stringBuilder.append(SqlStrings.INSERT).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.INTO).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
+		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_LEFT);
+
+		HashMap<String, String> hashColumnNameColumnValue = new HashMap<String, String>();
+
+		String type;
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			type = getSqlTypeOfJavaTypeOrNull(field.getType());
+			if (type == null)
+				continue;
+			try {
+				field.setAccessible(true);
+				hashColumnNameColumnValue.put(field.getName(), getSqlQueryFormattedRepresentation(field.get(object)));
+			} catch (Exception e) {
+				SimbiLog.logException(e);
+			}
+		}
+
+		for (String columnName : hashColumnNameColumnValue.keySet())
+			stringBuilder.append(columnName).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
+		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
+		stringBuilder.append(SqlStrings.PARENTHESIS_RIGHT).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.VALUES).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.PARENTHESIS_LEFT).append(SqlStrings.SPACE);
+
+		for (String columnName : hashColumnNameColumnValue.keySet())
+			stringBuilder.append(hashColumnNameColumnValue.get(columnName)).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
+		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+
 		stringBuilder.append(SqlStrings.PARENTHESIS_RIGHT).append(SqlStrings.SEMICOLON);
 
 		return stringBuilder.toString();

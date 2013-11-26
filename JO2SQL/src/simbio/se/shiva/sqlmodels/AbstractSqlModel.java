@@ -17,7 +17,8 @@ import simbio.se.shiva.API;
  */
 public abstract class AbstractSqlModel {
 
-	protected HashMap<Class<?>, String> fromToJavaSqlType = new HashMap<Class<?>, String>();
+	protected HashMap<Class<?>, String> toFromJavaTypeSqlType = new HashMap<Class<?>, String>();
+	protected HashMap<Class<?>, String> toFromJavaObjectSqlPattern = new HashMap<Class<?>, String>();
 
 	/**
 	 * @param clazz
@@ -36,13 +37,36 @@ public abstract class AbstractSqlModel {
 	public abstract String getDropTableQuery(Class<?> clazz);
 
 	/**
+	 * @param object
+	 *            the {@link Object} to be generated an insert
+	 * @return a {@link String} with sql insert query or <code>null</code> if object is <code>null</code>
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getInsertQuery(Object object);
+
+	/**
 	 * @param clazz
 	 *            the java {@link Class} type to be casted to an sql type
-	 * @return an {@link String} with the sql type or <code>null</code> if have no equivalent type
+	 * @return a {@link String} with the sql type or <code>null</code> if have no equivalent type
 	 * @since {@link API#_1_0_0}
 	 */
 	public String getSqlTypeOfJavaTypeOrNull(Class<?> clazz) {
-		return fromToJavaSqlType.get(clazz);
+		return toFromJavaTypeSqlType.get(clazz);
+	}
+
+	/**
+	 * @param object
+	 *            the object to be formatted
+	 * @return a {@link String} formatted to be used for example in insert querys
+	 * @since {@link API#_1_0_0}
+	 */
+	public String getSqlQueryFormattedRepresentation(Object object) {
+		if (object == null)
+			return null;
+		String pattern = toFromJavaObjectSqlPattern.get(object.getClass());
+		if (pattern == null)
+			return null;
+		return String.format(pattern, object);
 	}
 
 }

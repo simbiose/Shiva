@@ -51,4 +51,14 @@ public class Shiva {
 		return sqlModel.getDropTableQuery(clazz);
 	}
 
+	/**
+	 * @param object
+	 *            the {@link Object} to be generated an insert
+	 * @return a {@link String} with sql insert query or <code>null</code> if object is <code>null</code>
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toInsertQuery(Object object) {
+		return sqlModel.getInsertQuery(object);
+	}
+
 }

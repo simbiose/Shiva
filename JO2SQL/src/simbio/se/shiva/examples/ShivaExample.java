@@ -28,6 +28,12 @@ public class ShivaExample {
 
 		query = Shiva.toCreateTableQuery(Foo.class);
 		SimbiLog.log(query);
+
+		query = Shiva.toInsertQuery(new LittleFoo());
+		SimbiLog.log(query);
+
+		query = Shiva.toInsertQuery(new Foo());
+		SimbiLog.log(query);
 	}
 
 }
