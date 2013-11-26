@@ -71,4 +71,24 @@ public class Shiva {
 		return sqlModel.getSelectQuery(clazz);
 	}
 
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be generated a delet query. Note, it generate a delete all rows query, to delete a specifique item use {@link Shiva#toDeletQuery(Object)}.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toDeletQuery(Class<?> clazz) {
+		return sqlModel.getDeletQuery(clazz);
+	}
+
+	/**
+	 * @param object
+	 *            the {@link Object} to be generated a delet query.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toDeletQuery(Object object) {
+		return sqlModel.getDeletQuery(object);
+	}
+
 }

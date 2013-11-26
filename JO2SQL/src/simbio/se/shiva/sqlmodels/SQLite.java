@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import simbio.se.shiva.API;
-import simbio.se.shiva.utils.SimbiLog;
 import simbio.se.shiva.utils.SqlStrings;
 
 /**
@@ -101,27 +100,12 @@ public class SQLite extends AbstractSqlModel {
 
 		Class<?> clazz = object.getClass();
 		StringBuilder stringBuilder = new StringBuilder();
+		HashMap<String, String> hashColumnNameColumnValue = getHashMapWithVariableNamesAndValuesFormateds(object);
 
 		stringBuilder.append(SqlStrings.INSERT).append(SqlStrings.SPACE);
 		stringBuilder.append(SqlStrings.INTO).append(SqlStrings.SPACE);
 		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_LEFT);
-
-		HashMap<String, String> hashColumnNameColumnValue = new HashMap<String, String>();
-
-		String type;
-		Field[] fields = clazz.getDeclaredFields();
-		for (Field field : fields) {
-			type = getSqlTypeOfJavaTypeOrNull(field.getType());
-			if (type == null)
-				continue;
-			try {
-				field.setAccessible(true);
-				hashColumnNameColumnValue.put(field.getName(), getSqlQueryFormattedRepresentation(field.get(object)));
-			} catch (Exception e) {
-				SimbiLog.logException(e);
-			}
-		}
 
 		for (String columnName : hashColumnNameColumnValue.keySet())
 			stringBuilder.append(columnName).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
@@ -147,6 +131,9 @@ public class SQLite extends AbstractSqlModel {
 	 */
 	@Override
 	public String getDropTableQuery(Class<?> clazz) {
+		if (clazz == null)
+			return null;
+
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append(SqlStrings.DROP).append(SqlStrings.SPACE);
@@ -172,6 +159,56 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.ASTERISK).append(SqlStrings.SPACE);
 		stringBuilder.append(SqlStrings.FROM).append(SqlStrings.SPACE);
 		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
+		stringBuilder.append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getDeletQuery(java.lang.Class)
+	 */
+	@Override
+	public String getDeletQuery(Class<?> clazz) {
+		if (clazz == null)
+			return null;
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(SqlStrings.DELETE).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.FROM).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
+		stringBuilder.append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getDeletQuery(java.lang.Object)
+	 */
+	@Override
+	public String getDeletQuery(Object object) {
+		if (object == null)
+			return null;
+
+		Class<?> clazz = object.getClass();
+		StringBuilder stringBuilder = new StringBuilder();
+		HashMap<String, String> hashColumnNameColumnValue = getHashMapWithVariableNamesAndValuesFormateds(object);
+
+		stringBuilder.append(SqlStrings.DELETE).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.FROM).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
+		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.WHERE).append(SqlStrings.SPACE);
+
+		for (String columnName : hashColumnNameColumnValue.keySet()) {
+			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
+			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.AND).append(SqlStrings.SPACE);
+		}
+		stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length() - 1);
+
 		stringBuilder.append(SqlStrings.SEMICOLON);
 
 		return stringBuilder.toString();

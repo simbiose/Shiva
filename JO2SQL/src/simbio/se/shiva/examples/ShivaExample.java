@@ -40,6 +40,18 @@ public class ShivaExample {
 
 		query = Shiva.toSelectQuery(Foo.class);
 		SimbiLog.log(query);
+
+		query = Shiva.toDeletQuery(LittleFoo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toDeletQuery(Foo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toDeletQuery(new LittleFoo());
+		SimbiLog.log(query);
+
+		query = Shiva.toDeletQuery(new Foo());
+		SimbiLog.log(query);
 	}
 
 }

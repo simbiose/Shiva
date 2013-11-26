@@ -14,11 +14,14 @@ import simbio.se.shiva.API;
  */
 public class SqlStrings {
 
+	public static final String AND = "AND";
 	public static final char ASTERISK = '*';
 	public static final char COMMA = ',';
 	public static final String CREATE = "CREATE";
+	public static final String DELETE = "DELETE";
 	public static final char DOT = '.';
 	public static final String DROP = "DROP";
+	public static final char EQUAL = '=';
 	public static final String FROM = "FROM";
 	public static final String INSERT = "INSERT";
 	public static final String INTEGER = "INTEGER";
@@ -35,6 +38,7 @@ public class SqlStrings {
 	public static final String TEXT = "TEXT";
 	public static final char UNDERLINE = '_';
 	public static final String VALUES = "VALUES";
+	public static final String WHERE = "WHERE";
 
 	public static String removeDots(String string) {
 		return string.replace(DOT, UNDERLINE);

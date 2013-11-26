@@ -3,6 +3,7 @@
  */
 package simbio.se.shiva.sqlmodels;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import simbio.se.shiva.API;
@@ -54,6 +55,22 @@ public abstract class AbstractSqlModel {
 
 	/**
 	 * @param clazz
+	 *            the {@link Class} to be generated a delet query. Note, it generate a delete all rows query, to delete a specifique item use {@link AbstractSqlModel#getDeletQuery(Object)}.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getDeletQuery(Class<?> clazz);
+
+	/**
+	 * @param object
+	 *            the {@link Object} to be generated a delet query.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getDeletQuery(Object object);
+
+	/**
+	 * @param clazz
 	 *            the java {@link Class} type to be casted to an sql type
 	 * @return a {@link String} with the sql type or <code>null</code> if have no equivalent type
 	 * @since {@link API#_1_0_0}
@@ -75,6 +92,35 @@ public abstract class AbstractSqlModel {
 		if (pattern == null)
 			return null;
 		return String.format(pattern, object);
+	}
+
+	/**
+	 * @param object
+	 *            the {@link Object} to be mapped
+	 * @return an {@link HashMap} with {@link Object} values mapped
+	 * @since {@link API#_1_0_0}
+	 */
+	public HashMap<String, String> getHashMapWithVariableNamesAndValuesFormateds(Object object) {
+		if (object == null)
+			return null;
+
+		Class<?> clazz = object.getClass();
+		HashMap<String, String> hashColumnNameColumnValue = new HashMap<String, String>();
+		String type;
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			type = getSqlTypeOfJavaTypeOrNull(field.getType());
+			if (type == null)
+				continue;
+			try {
+				field.setAccessible(true);
+				hashColumnNameColumnValue.put(field.getName(), getSqlQueryFormattedRepresentation(field.get(object)));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		return hashColumnNameColumnValue;
 	}
 
 }
