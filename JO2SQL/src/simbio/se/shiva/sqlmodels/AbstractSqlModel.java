@@ -22,7 +22,7 @@ public abstract class AbstractSqlModel {
 
 	/**
 	 * @param clazz
-	 *            the {@link Class} to be created the sql table
+	 *            the {@link Class} to be generated a create query
 	 * @return a {@link String} with sql Create query
 	 * @since {@link API#_1_0_0}
 	 */
@@ -30,7 +30,7 @@ public abstract class AbstractSqlModel {
 
 	/**
 	 * @param clazz
-	 *            the {@link Class} to be droped the sql table
+	 *            the {@link Class} to be generated a drop query
 	 * @return a {@link String} with sql Drop query
 	 * @since {@link API#_1_0_0}
 	 */
@@ -38,11 +38,19 @@ public abstract class AbstractSqlModel {
 
 	/**
 	 * @param object
-	 *            the {@link Object} to be generated an insert
+	 *            the {@link Object} to be generated an insert query
 	 * @return a {@link String} with sql insert query or <code>null</code> if object is <code>null</code>
 	 * @since {@link API#_1_0_0}
 	 */
 	public abstract String getInsertQuery(Object object);
+
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be generated a select query
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getSelectQuery(Class<?> clazz);
 
 	/**
 	 * @param clazz

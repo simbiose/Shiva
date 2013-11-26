@@ -64,6 +64,9 @@ public class SQLite extends AbstractSqlModel {
 	 */
 	@Override
 	public String getCreateTableQuery(Class<?> clazz) {
+		if (clazz == null)
+			return null;
+
 		StringBuilder stringBuilder = new StringBuilder();
 
 		stringBuilder.append(SqlStrings.CREATE).append(SqlStrings.SPACE);
@@ -150,6 +153,26 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.TABLE).append(SqlStrings.SPACE);
 		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getSelectQuery(java.lang.Class)
+	 */
+	@Override
+	public String getSelectQuery(Class<?> clazz) {
+		if (clazz == null)
+			return null;
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(SqlStrings.SELECT).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.ASTERISK).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.FROM).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.removeDots(clazz.getCanonicalName()));
+		stringBuilder.append(SqlStrings.SEMICOLON);
 
 		return stringBuilder.toString();
 	}

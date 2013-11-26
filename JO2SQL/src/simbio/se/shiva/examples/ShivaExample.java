@@ -34,6 +34,12 @@ public class ShivaExample {
 
 		query = Shiva.toInsertQuery(new Foo());
 		SimbiLog.log(query);
+
+		query = Shiva.toSelectQuery(LittleFoo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toSelectQuery(Foo.class);
+		SimbiLog.log(query);
 	}
 
 }

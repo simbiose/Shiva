@@ -61,4 +61,14 @@ public class Shiva {
 		return sqlModel.getInsertQuery(object);
 	}
 
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be generated a select query
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toSelectQuery(Class<?> clazz) {
+		return sqlModel.getSelectQuery(clazz);
+	}
+
 }

@@ -14,10 +14,12 @@ import simbio.se.shiva.API;
  */
 public class SqlStrings {
 
+	public static final char ASTERISK = '*';
 	public static final char COMMA = ',';
 	public static final String CREATE = "CREATE";
 	public static final char DOT = '.';
 	public static final String DROP = "DROP";
+	public static final String FROM = "FROM";
 	public static final String INSERT = "INSERT";
 	public static final String INTEGER = "INTEGER";
 	public static final String INTO = "INTO";
@@ -26,6 +28,7 @@ public class SqlStrings {
 	public static final char PARENTHESIS_LEFT = '(';
 	public static final char PARENTHESIS_RIGHT = ')';
 	public static final String REAL = "REAL";
+	public static final String SELECT = "SELECT";
 	public static final char SEMICOLON = ';';
 	public static final String SPACE = " ";
 	public static final String TABLE = "TABLE";
