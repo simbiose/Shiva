@@ -52,7 +52,7 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_LEFT);
 
 		String type;
-		Field[] fields = clazz.getFields();
+		Field[] fields = clazz.getDeclaredFields();
 		for (Field field : fields) {
 			type = getSqlTypeOfJavaTypeOrNull(field.getType());
 			if (type == null)

@@ -17,16 +17,16 @@ public class ShivaExample {
 	public static void main(String[] args) {
 		String query;
 
-		query = Shiva.toCreateTableQuery(LittleFoo.class);
-		SimbiLog.log(query);
-
-		query = Shiva.toCreateTableQuery(Foo.class);
-		SimbiLog.log(query);
-
 		query = Shiva.toDropTableQuery(LittleFoo.class);
 		SimbiLog.log(query);
 
 		query = Shiva.toDropTableQuery(Foo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toCreateTableQuery(LittleFoo.class);
+		SimbiLog.log(query);
+
+		query = Shiva.toCreateTableQuery(Foo.class);
 		SimbiLog.log(query);
 	}
 
