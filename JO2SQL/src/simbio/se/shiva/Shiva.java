@@ -72,6 +72,16 @@ public class Shiva {
 	}
 
 	/**
+	 * @param object
+	 *            the {@link Object} to be generated an update query.
+	 * @return a {@link String} with sql Update query
+	 * @since {@link API#_1_0_0}
+	 */
+	public static String toUpdateQuery(Object object) {
+		return sqlModel.getUpdateQuery(object);
+	}
+
+	/**
 	 * @param clazz
 	 *            the {@link Class} to be generated a delet query. Note, it generate a delete all rows query, to delete a specifique item use {@link Shiva#toDeletQuery(Object)}.
 	 * @return a {@link String} with sql Select query

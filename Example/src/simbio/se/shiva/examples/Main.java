@@ -38,6 +38,12 @@ public class Main {
 		query = Shiva.toSelectQuery(Foo.class);
 		SimbiLog.log(query);
 
+		query = Shiva.toUpdateQuery(new LittleFoo());
+		SimbiLog.log(query);
+
+		query = Shiva.toUpdateQuery(new Foo());
+		SimbiLog.log(query);
+
 		query = Shiva.toDeletQuery(LittleFoo.class);
 		SimbiLog.log(query);
 

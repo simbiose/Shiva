@@ -70,6 +70,14 @@ public abstract class AbstractSqlModel {
 	public abstract String getDeletQuery(Object object);
 
 	/**
+	 * @param object
+	 *            the {@link Object} to be generated an update query.
+	 * @return a {@link String} with sql Update query
+	 * @since {@link API#_1_0_0}
+	 */
+	public abstract String getUpdateQuery(Object object);
+
+	/**
 	 * @param clazz
 	 *            the {@link Class} to be getted table name
 	 * @return a {@link String} with sql table name

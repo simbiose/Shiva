@@ -33,10 +33,12 @@ public class SqlStrings {
 	public static final String REAL = "REAL";
 	public static final String SELECT = "SELECT";
 	public static final char SEMICOLON = ';';
+	public static final String SET = "SET";
 	public static final String SPACE = " ";
 	public static final String TABLE = "TABLE";
 	public static final String TEXT = "TEXT";
 	public static final char UNDERLINE = '_';
+	public static final String UPDATE = "UPDATE";
 	public static final String VALUES = "VALUES";
 	public static final String WHERE = "WHERE";
 

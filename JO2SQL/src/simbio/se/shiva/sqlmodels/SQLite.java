@@ -217,6 +217,45 @@ public class SQLite extends AbstractSqlModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getUpdateQuery(java.lang.Object)
+	 */
+	@Override
+	public String getUpdateQuery(Object object) {
+		if (object == null)
+			return null;
+
+		Class<?> clazz = object.getClass();
+		StringBuilder stringBuilder = new StringBuilder();
+		HashMap<String, String> hashColumnNameColumnValue = getHashMapWithVariableNamesAndValuesFormateds(object);
+
+		stringBuilder.append(SqlStrings.UPDATE).append(SqlStrings.SPACE);
+		stringBuilder.append(getTableName(clazz));
+		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.SET).append(SqlStrings.SPACE);
+
+		for (String columnName : hashColumnNameColumnValue.keySet()) {
+			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
+			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.COMMA).append(SqlStrings.SPACE);
+		}
+		stringBuilder.delete(stringBuilder.length() - 3, stringBuilder.length() - 1);
+
+		stringBuilder.append(SqlStrings.WHERE).append(SqlStrings.SPACE);
+
+		for (String columnName : hashColumnNameColumnValue.keySet()) {
+			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
+			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.AND).append(SqlStrings.SPACE);
+		}
+		stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length() - 1);
+
+		stringBuilder.append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getTableName(java.lang.Class)
 	 */
 	@Override
