@@ -79,7 +79,8 @@ public class SQLite extends AbstractSqlModel {
 			type = getSqlTypeOfJavaTypeOrNull(field.getType());
 			if (type == null)
 				continue;
-			stringBuilder.append(field.getName()).append(SqlStrings.SPACE);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(field.getName());
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(SqlStrings.SPACE);
 			stringBuilder.append(type).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
 		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
@@ -107,8 +108,10 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(getTableName(clazz));
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_LEFT);
 
-		for (String columnName : hashColumnNameColumnValue.keySet())
-			stringBuilder.append(columnName).append(SqlStrings.SPACE).append(SqlStrings.COMMA);
+		for (String columnName : hashColumnNameColumnValue.keySet()) {
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(columnName).append(SqlStrings.GRAVE_ACCENT);
+			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.COMMA);
+		}
 		stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 
 		stringBuilder.append(SqlStrings.PARENTHESIS_RIGHT).append(SqlStrings.SPACE);
@@ -167,6 +170,54 @@ public class SQLite extends AbstractSqlModel {
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getSelectQueryWithWhereClause(java.lang.Class, java.util.HashMap)
+	 */
+	@Override
+	public String getSelectQueryWithWhereClause(Class<?> clazz, HashMap<String, Object> columnsAndValuesToWhereClause) {
+		if (clazz == null)
+			return null;
+
+		if (columnsAndValuesToWhereClause == null || columnsAndValuesToWhereClause.isEmpty())
+			return getSelectQuery(clazz);
+
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append(SqlStrings.SELECT).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.ASTERISK).append(SqlStrings.SPACE);
+		stringBuilder.append(SqlStrings.FROM).append(SqlStrings.SPACE);
+		stringBuilder.append(getTableName(clazz)).append(SqlStrings.SPACE).append(SqlStrings.WHERE);
+		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_LEFT);
+
+		String type;
+		Field field;
+		for (String fieldName : columnsAndValuesToWhereClause.keySet()) {
+			try {
+				field = clazz.getDeclaredField(fieldName);
+				if (field == null)
+					continue;
+				field.setAccessible(true);
+				type = getSqlTypeOfJavaTypeOrNull(field.getType());
+				if (type == null)
+					continue;
+				stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(field.getName());
+				stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(SqlStrings.SPACE);
+				stringBuilder.append(SqlStrings.EQUAL).append(SqlStrings.SPACE);
+				stringBuilder.append(getSqlQueryFormattedRepresentation(columnsAndValuesToWhereClause.get(fieldName)));
+				stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.AND).append(SqlStrings.SPACE);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		stringBuilder.delete(stringBuilder.length() - 5, stringBuilder.length() - 1);
+
+		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.PARENTHESIS_RIGHT);
+		stringBuilder.append(SqlStrings.SEMICOLON);
+
+		return stringBuilder.toString();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see simbio.se.shiva.sqlmodels.AbstractSqlModel#getDeletQuery(java.lang.Class)
 	 */
 	@Override
@@ -203,7 +254,9 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.WHERE).append(SqlStrings.SPACE);
 
 		for (String columnName : hashColumnNameColumnValue.keySet()) {
-			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(columnName);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(SqlStrings.SPACE);
+			stringBuilder.append(SqlStrings.EQUAL).append(SqlStrings.SPACE);
 			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
 			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.AND).append(SqlStrings.SPACE);
 		}
@@ -233,7 +286,9 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.SET).append(SqlStrings.SPACE);
 
 		for (String columnName : hashColumnNameColumnValue.keySet()) {
-			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(columnName);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(SqlStrings.SPACE);
+			stringBuilder.append(SqlStrings.EQUAL).append(SqlStrings.SPACE);
 			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
 			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.COMMA).append(SqlStrings.SPACE);
 		}
@@ -242,7 +297,9 @@ public class SQLite extends AbstractSqlModel {
 		stringBuilder.append(SqlStrings.WHERE).append(SqlStrings.SPACE);
 
 		for (String columnName : hashColumnNameColumnValue.keySet()) {
-			stringBuilder.append(columnName).append(SqlStrings.EQUAL);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(columnName);
+			stringBuilder.append(SqlStrings.GRAVE_ACCENT).append(SqlStrings.SPACE);
+			stringBuilder.append(SqlStrings.EQUAL).append(SqlStrings.SPACE);
 			stringBuilder.append(hashColumnNameColumnValue.get(columnName));
 			stringBuilder.append(SqlStrings.SPACE).append(SqlStrings.AND).append(SqlStrings.SPACE);
 		}

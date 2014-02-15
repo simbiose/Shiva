@@ -3,6 +3,9 @@
  */
 package simbio.se.shiva;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
 import simbio.se.shiva.sqlmodels.AbstractSqlModel;
 import simbio.se.shiva.sqlmodels.SQLite;
 
@@ -69,6 +72,18 @@ public class Shiva {
 	 */
 	public static String toSelectQuery(Class<?> clazz) {
 		return sqlModel.getSelectQuery(clazz);
+	}
+
+	/**
+	 * @param clazz
+	 *            the {@link Class} to be generated a select query
+	 * @param columnsAndValuesToWhereClause
+	 *            an {@link HashMap} to be used on where clause, the {@link String} is the {@link Field} name i.e the column and {@link Object} the value of the clause.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_1}
+	 */
+	public static String toSelectQueryWithWhereClause(Class<?> clazz, HashMap<String, Object> columnsAndValuesToWhereClause) {
+		return sqlModel.getSelectQueryWithWhereClause(clazz, columnsAndValuesToWhereClause);
 	}
 
 	/**

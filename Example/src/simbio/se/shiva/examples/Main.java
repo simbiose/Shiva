@@ -3,6 +3,8 @@
  */
 package simbio.se.shiva.examples;
 
+import java.util.HashMap;
+
 import simbio.se.shiva.Shiva;
 
 /**
@@ -34,6 +36,22 @@ public class Main {
 
 		query = Shiva.toSelectQuery(LittleFoo.class);
 		SimbiLog.log(query);
+
+		// teste select with args
+
+		// create the params, an hash of field names and his values
+		HashMap<String, Object> whereClause = new HashMap<String, Object>();
+
+		try {
+			whereClause.put("fooIntNumberPublic", 7);
+			whereClause.put("fooStringPrivate", "fooStringPrivate");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		query = Shiva.toSelectQueryWithWhereClause(Foo.class, whereClause);
+		SimbiLog.log(query);
+		// end select with args
 
 		query = Shiva.toSelectQuery(Foo.class);
 		SimbiLog.log(query);

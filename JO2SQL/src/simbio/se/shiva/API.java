@@ -11,5 +11,6 @@ package simbio.se.shiva;
  * @since {@link API#_1_0_0}
  */
 public enum API {
-	_1_0_0;
+	_1_0_0, 
+	_1_0_1;
 }

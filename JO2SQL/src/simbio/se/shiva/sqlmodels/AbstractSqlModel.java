@@ -55,6 +55,16 @@ public abstract class AbstractSqlModel {
 
 	/**
 	 * @param clazz
+	 *            the {@link Class} to be generated a select query
+	 * @param columnsAndValuesToWhereClause
+	 *            an {@link HashMap} to be used on where clause, the {@link String} is the {@link Field} name i.e the column and {@link Object} the value of the clause.
+	 * @return a {@link String} with sql Select query
+	 * @since {@link API#_1_0_1}
+	 */
+	public abstract String getSelectQueryWithWhereClause(Class<?> clazz, HashMap<String, Object> columnsAndValuesToWhereClause);
+
+	/**
+	 * @param clazz
 	 *            the {@link Class} to be generated a delet query. Note, it generate a delete all rows query, to delete a specifique item use {@link AbstractSqlModel#getDeletQuery(Object)}.
 	 * @return a {@link String} with sql Select query
 	 * @since {@link API#_1_0_0}

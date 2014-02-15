@@ -23,6 +23,7 @@ public class SqlStrings {
 	public static final String DROP = "DROP";
 	public static final char EQUAL = '=';
 	public static final String FROM = "FROM";
+	public static final char GRAVE_ACCENT = '`';
 	public static final String INSERT = "INSERT";
 	public static final String INTEGER = "INTEGER";
 	public static final String INTO = "INTO";
